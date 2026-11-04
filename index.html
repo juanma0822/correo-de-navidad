@@ -115,6 +115,10 @@
     textarea { display: block; width: 100%; min-height: 176px; resize: vertical; padding: 10px 2px 8px; color: var(--ink); border: 0; outline: none; background: transparent; font-size: 17px; line-height: 36px; }
     textarea::placeholder { color: #9aa596; opacity: 1; }
     textarea:focus { box-shadow: inset 0 -1px rgba(40, 89, 75, .55); }
+    .gift-link-wrap { margin-top: 10px; }
+    .gift-link-input { width: 100%; padding: 11px 12px; color: var(--ink); border: 1px solid #d5dbc9; border-radius: 3px; outline: none; background: rgba(255,255,255,.5); font-family: ui-sans-serif, system-ui, sans-serif; font-size: 13px; }
+    .gift-link-input:focus { border-color: var(--pine); box-shadow: 0 0 0 2px rgba(40,89,75,.12); }
+    .field-help { margin: 6px 0 0; color: #899486; font-family: ui-sans-serif, system-ui, sans-serif; font-size: 10px; }
     .form-bottom { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-top: 12px; padding-top: 20px; border-top: 1px solid rgba(80, 102, 78, .16); }
     .send-hint { max-width: 205px; color: #718071; font-family: ui-sans-serif, system-ui, sans-serif; font-size: 11px; line-height: 1.55; }
     .send-button, .primary-button { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 48px; padding: 0 21px; color: #fff8e7; border: 0; border-radius: 3px; background: var(--forest); font-family: ui-sans-serif, system-ui, sans-serif; font-size: 13px; font-weight: 700; transition: transform .18s ease, background .18s ease, box-shadow .18s ease; box-shadow: 0 5px 14px rgba(24, 59, 50, .15); }
@@ -140,6 +144,18 @@
     .share-note { margin: 15px 0 0; color: #849084; font-family: ui-sans-serif, system-ui, sans-serif; font-size: 10px; line-height: 1.5; }
     .toast { position: fixed; right: 22px; bottom: 22px; z-index: 20; max-width: calc(100% - 44px); padding: 12px 17px; color: #fff8e7; border: 1px solid rgba(221, 187, 114, .45); border-radius: 4px; background: #183b32; box-shadow: 0 8px 28px rgba(0,0,0,.25); font-family: ui-sans-serif, system-ui, sans-serif; font-size: 13px; opacity: 0; pointer-events: none; transform: translateY(8px); transition: .2s ease; }
     .toast.show { opacity: 1; transform: translateY(0); }
+    .success-overlay { position: fixed; inset: 0; z-index: 30; display: none; place-items: center; overflow: hidden; padding: 24px; background: rgba(7, 29, 25, .92); backdrop-filter: blur(8px); }
+    .success-overlay.open { display: grid; }
+    .snowball { position: absolute; top: -12vh; left: var(--x); width: var(--size); height: var(--size); border: 1px solid rgba(255,255,255,.85); border-radius: 50%; background: radial-gradient(circle at 32% 28%, white 0 20%, #e8f4ed 52%, #c6ded5 100%); box-shadow: 0 0 18px rgba(226,247,239,.45); animation: snowball-fall var(--duration) linear var(--delay) infinite; }
+    @keyframes snowball-fall { 0% { transform: translate3d(0,-8vh,0) scale(.65); opacity: 0; } 12% { opacity: 1; } 72% { transform: translate3d(var(--drift),72vh,0) scale(1); } 100% { transform: translate3d(calc(var(--drift) * -1),116vh,0) scale(.8); opacity: .15; } }
+    .success-card { position: relative; z-index: 1; width: min(100%, 480px); padding: 42px 34px 35px; color: var(--ink); border: 2px solid #d9b36b; border-radius: 12px 4px 12px 4px; background: radial-gradient(circle at 50% 0%, #fffdf6, #f8f0dc); box-shadow: 0 22px 90px rgba(0,0,0,.42); text-align: center; animation: elf-arrive .55s cubic-bezier(.2,.8,.2,1) both; }
+    @keyframes elf-arrive { from { opacity: 0; transform: translateY(28px) scale(.88) rotate(-2deg); } to { opacity: 1; transform: translateY(0) scale(1) rotate(0); } }
+    .success-sparkle { font-size: 34px; }
+    .success-card h2 { margin: 13px 0 10px; color: var(--forest); font-size: clamp(29px, 6vw, 39px); font-weight: 500; }
+    .success-card p { margin: 0 auto 24px; color: #596b5c; font-family: ui-sans-serif, system-ui, sans-serif; font-size: 15px; line-height: 1.65; }
+    .success-card strong { color: var(--red); }
+    .success-close { min-height: 44px; padding: 0 21px; color: #fff8e7; border: 0; border-radius: 3px; background: var(--forest); font-family: ui-sans-serif, system-ui, sans-serif; font-weight: 700; }
+    .success-close:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
     @media (max-width: 850px) {
       .page { padding-top: 47px; }
       .layout { grid-template-columns: 1fr; gap: 28px; max-width: 650px; margin: 0 auto; }
@@ -213,9 +229,14 @@
             <span class="counter" id="counter">0 / 1200</span>
           </div>
           <textarea id="letter-body" name="message" maxlength="1200" placeholder="Este año me hizo feliz…&#10;Para esta Navidad me gustaría…" required></textarea>
+          <div class="gift-link-wrap">
+            <label class="field-label" for="gift-link">¿Tienes el enlace de lo que te gustaría?</label>
+            <input class="gift-link-input" id="gift-link" name="giftLink" type="url" maxlength="300" placeholder="https://… (opcional)" inputmode="url">
+            <p class="field-help">Si lo tienes, pégalo aquí para incluirlo en tu carta.</p>
+          </div>
           <p class="error" id="form-error" role="alert" aria-live="polite"></p>
           <div class="form-bottom">
-            <span class="send-hint">Al terminar, podrás compartirla por WhatsApp, correo o copiarla.</span>
+            <span class="send-hint">Al terminar, tu cartita irá por correo directo a Santa Juanma.</span>
             <button class="send-button" id="send-button" type="submit">Enviar mi carta <span class="arrow" aria-hidden="true">↗</span></button>
           </div>
         </form>
@@ -224,44 +245,35 @@
     <footer class="page-footer"><span>✦</span> Un poquito de magia, en cada palabra <span>✦</span></footer>
   </main>
 
-  <div class="modal-backdrop" id="share-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-hidden="true">
-    <div class="modal">
-      <button class="close-button" id="close-modal" type="button" aria-label="Cerrar">×</button>
-      <span class="modal-sparkle" aria-hidden="true">✧</span>
-      <h3 id="modal-title">Tu carta está lista</h3>
-      <p class="modal-copy">Elige cómo quieres compartirla. Se abrirá la aplicación para que elijas a quién enviársela.</p>
-      <pre class="letter-preview" id="letter-preview"></pre>
-      <div class="share-actions">
-        <button class="share-button" id="whatsapp-button" type="button"><span class="share-icon" aria-hidden="true">◉</span> Abrir WhatsApp</button>
-        <button class="share-button" id="image-button" type="button"><span class="share-icon" aria-hidden="true">✧</span> Compartir cartita como imagen</button>
-        <button class="share-button" id="email-button" type="button"><span class="share-icon" aria-hidden="true">✉</span> Abrir correo</button>
-        <button class="share-button" id="copy-button" type="button"><span class="share-icon" aria-hidden="true">▣</span> Copiar carta</button>
-        <button class="share-button" id="native-share-button" type="button" hidden><span class="share-icon" aria-hidden="true">↗</span> Compartir desde mi dispositivo</button>
-      </div>
-      <p class="share-note">WhatsApp abre el chat para que confirmes el envío. En celulares compatibles, puedes adjuntar la cartita como imagen desde el menú de compartir.</p>
-    </div>
+  <div class="success-overlay" id="success-overlay" role="dialog" aria-modal="true" aria-labelledby="success-title" aria-hidden="true">
+    <span class="snowball" style="--x:4%;--size:18px;--duration:5s;--delay:-2s;--drift:34px"></span>
+    <span class="snowball" style="--x:12%;--size:9px;--duration:7s;--delay:-5s;--drift:-22px"></span>
+    <span class="snowball" style="--x:21%;--size:24px;--duration:8s;--delay:-3s;--drift:28px"></span>
+    <span class="snowball" style="--x:31%;--size:12px;--duration:6s;--delay:-1s;--drift:-36px"></span>
+    <span class="snowball" style="--x:43%;--size:20px;--duration:9s;--delay:-7s;--drift:18px"></span>
+    <span class="snowball" style="--x:53%;--size:10px;--duration:5.5s;--delay:-4s;--drift:-25px"></span>
+    <span class="snowball" style="--x:64%;--size:26px;--duration:8s;--delay:-2.5s;--drift:38px"></span>
+    <span class="snowball" style="--x:75%;--size:14px;--duration:6.5s;--delay:-6s;--drift:-18px"></span>
+    <span class="snowball" style="--x:86%;--size:21px;--duration:7.5s;--delay:-3s;--drift:26px"></span>
+    <span class="snowball" style="--x:96%;--size:11px;--duration:5s;--delay:-1.5s;--drift:-31px"></span>
+    <section class="success-card">
+      <span class="success-sparkle" aria-hidden="true">🎄 ✨ 🎄</span>
+      <h2 id="success-title">¡La carta salió volando!</h2>
+      <p>Los elfos ya se la harán llegar a <strong>Santa Juanma</strong>. ¡Qué emoción!</p>
+      <button class="success-close" id="success-close" type="button">Volver a la carta</button>
+    </section>
   </div>
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
-
   <script>
-    // Para enviarlas siempre a la misma persona, agrega aquí su número con código de país
-    // (solo dígitos, por ejemplo 573001234567) y/o su correo. Déjalos vacíos para que
-    // cada familiar elija su propio destinatario al compartir.
-    const DELIVERY = { whatsapp: "573189004221", email: "juanmanuelva3243@gmail.com" };
-    // Pega aquí la URL de implementación de tu Apps Script para activar el envío automático.
+    const DESTINATION_EMAIL = "juanmanuelva3243@gmail.com";
     const EMAIL_ENDPOINT = "https://script.google.com/macros/s/AKfycbwxKP3qaPhiFjM4xbHG5Q7OG3p7HAS82Pr-dyn5wPXHNnpKhYn_RQNmk40EkF2IXzZHxQ/exec";
 
     const form = document.getElementById("letter-form");
     const senderInput = document.getElementById("sender-name");
     const messageInput = document.getElementById("letter-body");
+    const giftLinkInput = document.getElementById("gift-link");
     const error = document.getElementById("form-error");
-    const modal = document.getElementById("share-modal");
-    const preview = document.getElementById("letter-preview");
+    const successOverlay = document.getElementById("success-overlay");
     const counter = document.getElementById("counter");
-    const toast = document.getElementById("toast");
-    const nativeShareButton = document.getElementById("native-share-button");
-    let currentLetter = "";
-    let toastTimer;
 
     function updateGreeting() {
       document.getElementById("greeting-name").textContent = "Santa";
@@ -271,17 +283,29 @@
       error.textContent = "";
     });
     senderInput.addEventListener("input", () => { error.textContent = ""; });
+    giftLinkInput.addEventListener("input", () => { error.textContent = ""; });
 
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
       const sender = senderInput.value.trim();
       const message = messageInput.value.trim();
+      const giftLink = giftLinkInput.value.trim();
       if (!sender || !message) {
         error.textContent = !sender && !message ? "Escribe tu nombre y tu carta para continuar." : !sender ? "Escribe tu nombre para firmar la carta." : "Cuéntanos qué te gustaría para esta Navidad.";
         (!sender ? senderInput : messageInput).focus();
         return;
       }
-      currentLetter = `Querido Santa Juanma,\n\n${message}\n\nCon cariño,\n${sender}`;
+      if (giftLink) {
+        try {
+          const parsed = new URL(giftLink);
+          if (!['http:', 'https:'].includes(parsed.protocol)) throw new Error('URL no válida');
+        } catch (_) {
+          error.textContent = "Revisa el enlace: debe comenzar con https://";
+          giftLinkInput.focus();
+          return;
+        }
+      }
+      const letterMessage = giftLink ? `${message}\n\nLink: ${giftLink}` : message;
       if (!EMAIL_ENDPOINT) {
         error.textContent = "El envío automático aún necesita conectar el correo. Sigue el paso de configuración incluido con la aplicación.";
         return;
@@ -290,16 +314,18 @@
       button.disabled = true;
       button.textContent = "Enviando tu carta…";
       try {
-        const png = await makeLetterImage();
+        const png = await makeLetterImage(letterMessage);
         const bytes = new Uint8Array(await png.arrayBuffer());
         let binary = "";
         for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]);
         const payload = new URLSearchParams({
-          sender, recipient: "Santa", message,
+          sender, recipient: "Santa Juanma", message: letterMessage,
           image: btoa(binary), imageType: "image/png", website: ""
         });
         await fetch(EMAIL_ENDPOINT, { method: "POST", mode: "no-cors", body: payload });
-        showToast("¡Carta enviada! Ya va en camino al buzón de Juan Manuel.");
+        successOverlay.classList.add("open");
+        successOverlay.setAttribute("aria-hidden", "false");
+        document.getElementById("success-close").focus();
         form.reset();
         counter.textContent = "0 / 1200";
         updateGreeting();
@@ -311,29 +337,21 @@
       }
     });
 
-    function closeModal() {
-      modal.classList.remove("open");
-      modal.setAttribute("aria-hidden", "true");
-      document.getElementById("send-button")?.focus();
-    }
-    document.getElementById("close-modal").addEventListener("click", closeModal);
-    modal.addEventListener("click", (event) => { if (event.target === modal) closeModal(); });
-    document.addEventListener("keydown", (event) => { if (event.key === "Escape" && modal.classList.contains("open")) closeModal(); });
-    function showToast(message) {
-      toast.textContent = message;
-      toast.classList.add("show");
-      clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => toast.classList.remove("show"), 2800);
-    }
-    document.getElementById("whatsapp-button").addEventListener("click", () => {
-      const phone = DELIVERY.whatsapp.replace(/\D/g, "");
-      const target = phone ? `https://wa.me/${phone}` : "https://wa.me/";
-      window.open(`${target}?text=${encodeURIComponent(currentLetter)}`, "_blank", "noopener,noreferrer");
+    document.getElementById("success-close").addEventListener("click", () => {
+      successOverlay.classList.remove("open");
+      successOverlay.setAttribute("aria-hidden", "true");
+      senderInput.focus();
     });
-    function makeLetterImage() {
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && successOverlay.classList.contains("open")) {
+        successOverlay.classList.remove("open");
+        successOverlay.setAttribute("aria-hidden", "true");
+      }
+    });
+    function makeLetterImage(letterMessage) {
       const canvas = document.createElement("canvas");
       canvas.width = 1080;
-      canvas.height = 1350;
+      canvas.height = 2300;
       const ctx = canvas.getContext("2d");
       ctx.fillStyle = "#fff9eb";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -362,33 +380,34 @@
       ctx.fillText(" Juanma,", greetingX + ctx.measureText("Santa").width, 220);
       ctx.strokeStyle = "rgba(91, 118, 85, .17)";
       ctx.lineWidth = 2;
-      for (let y = 305; y < 1090; y += 69) {
+      for (let y = 305; y < 2100; y += 57) {
         ctx.beginPath(); ctx.moveTo(92, y + 28); ctx.lineTo(988, y + 28); ctx.stroke();
       }
       ctx.fillStyle = "#35473a";
-      ctx.font = "34px Georgia, serif";
-      const words = messageInput.value.trim().split(/\s+/);
+      ctx.font = "30px Georgia, serif";
       const lines = [];
-      let line = "";
-      for (const word of words) {
-        const test = line ? `${line} ${word}` : word;
-        if (ctx.measureText(test).width > 890 && line) { lines.push(line); line = word; }
-        else line = test;
+      for (const paragraph of letterMessage.split("\n")) {
+        let line = "";
+        for (const word of paragraph.split(/\s+/).filter(Boolean)) {
+          const test = line ? `${line} ${word}` : word;
+          if (ctx.measureText(test).width > 890 && line) { lines.push(line); line = word; }
+          else line = test;
+        }
+        if (line) lines.push(line);
+        if (!paragraph) lines.push("");
       }
-      if (line) lines.push(line);
-      const maxLines = 11;
-      lines.slice(0, maxLines).forEach((text, index) => ctx.fillText(text, 94, 350 + index * 69));
-      if (lines.length > maxLines) ctx.fillText("…", 94, 350 + maxLines * 69);
+      lines.forEach((text, index) => ctx.fillText(text, 94, 350 + index * 57));
       ctx.fillStyle = "#28594b";
       ctx.font = "italic 31px Georgia, serif";
-      ctx.fillText("Con cariño,", 94, 1150);
+      const signatureY = Math.min(2160, 390 + lines.length * 57);
+      ctx.fillText("Con cariño,", 94, signatureY);
       ctx.font = "bold 34px Georgia, serif";
-      ctx.fillText(senderInput.value.trim(), 94, 1200);
+      ctx.fillText(senderInput.value.trim(), 94, signatureY + 52);
       ctx.fillStyle = "#a7483d";
-      ctx.beginPath(); ctx.arc(950, 1190, 36, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.arc(950, signatureY + 40, 36, 0, Math.PI * 2); ctx.fill();
       ctx.fillStyle = "#fff9eb";
       ctx.font = "34px Georgia, serif";
-      ctx.fillText("✦", 934, 1202);
+      ctx.fillText("✦", 934, signatureY + 52);
       return new Promise((resolve) => canvas.toBlob(resolve, "image/png"));
     }
     document.getElementById("image-button").addEventListener("click", async () => {
