@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#102a27">
+  <meta name="description" content="Escribe y comparte tu carta de Navidad con quienes más quieres.">
+  <title>Correo de Navidad — una carta llena de ilusión</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --forest: #183b32;
+      --forest-deep: #102a27;
+      --pine: #28594b;
+      --gold: #d8ac61;
+      --cream: #fff9eb;
+      --paper: #fffdf6;
+      --ink: #28392f;
+      --muted: #68766a;
+      --red: #b94f43;
+      --line: rgba(87, 107, 84, .16);
+      --shadow: 0 24px 80px rgba(5, 20, 18, .3);
+    }
+    * { box-sizing: border-box; }
+    html { min-width: 320px; }
+    body {
+      min-height: 100vh;
+      margin: 0;
+      color: #f8f2df;
+      background:
+        radial-gradient(ellipse at 78% 8%, rgba(57, 103, 78, .33), transparent 34rem),
+        radial-gradient(ellipse at 5% 78%, rgba(162, 105, 62, .14), transparent 32rem),
+        linear-gradient(145deg, #102a27 0%, #0b211f 57%, #142c27 100%);
+      font-family: ui-serif, Georgia, "Times New Roman", serif;
+    }
+    body::before {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      content: "";
+      opacity: .35;
+      background-image: radial-gradient(rgba(255, 241, 198, .75) .7px, transparent .9px);
+      background-size: 83px 83px;
+      mask-image: linear-gradient(to bottom, #000, transparent 85%);
+    }
+    button, input, textarea { font: inherit; }
+    button { cursor: pointer; }
+    .site-header {
+      width: min(1180px, calc(100% - 48px));
+      margin: 0 auto;
+      min-height: 88px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(247, 235, 200, .13);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    .brand { display: inline-flex; align-items: center; gap: 11px; color: #f7eed7; text-decoration: none; }
+    .brand-mark { width: 35px; height: 35px; display: grid; place-items: center; border: 1px solid rgba(231, 193, 121, .6); border-radius: 50%; color: #e8c47d; font-size: 19px; }
+    .brand-name { font-family: ui-serif, Georgia, serif; font-size: 17px; letter-spacing: .02em; }
+    .season { color: #d9c9a6; font-size: 11px; letter-spacing: .16em; text-transform: uppercase; }
+    .page { width: min(1180px, calc(100% - 48px)); margin: 0 auto; padding: 66px 0 80px; }
+    .layout { display: grid; grid-template-columns: minmax(260px, .76fr) minmax(540px, 1.24fr); gap: clamp(38px, 7vw, 100px); align-items: center; }
+    .intro { padding: 0 0 24px; }
+    .eyebrow { display: flex; align-items: center; gap: 11px; margin: 0 0 22px; color: #e3c885; font-family: ui-sans-serif, system-ui, sans-serif; font-size: 11px; font-weight: 650; letter-spacing: .2em; text-transform: uppercase; }
+    .eyebrow::before { width: 30px; height: 1px; background: var(--gold); content: ""; }
+    h1 { max-width: 460px; margin: 0; color: #fff8e8; font-size: clamp(43px, 5.4vw, 70px); font-weight: 500; line-height: .99; letter-spacing: -.045em; }
+    h1 em { color: #e3c47f; font-weight: 400; }
+    .intro-copy { max-width: 360px; margin: 23px 0 30px; color: #d1d6c8; font-family: ui-sans-serif, system-ui, sans-serif; font-size: 15px; line-height: 1.7; }
+    .little-note { display: flex; align-items: center; gap: 12px; color: #c6cbbd; font-family: ui-sans-serif, system-ui, sans-serif; font-size: 12px; }
+    .note-star { color: #e6c77f; font-size: 17px; }
+    .ornament { position: relative; width: 210px; height: 62px; margin-top: 48px; opacity: .64; }
+    .ornament::before { position: absolute; top: 29px; left: 6px; width: 190px; height: 25px; border-top: 1px solid #c9a460; border-radius: 50%; content: ""; transform: rotate(-9deg); }
+    .ornament::after { position: absolute; top: 28px; left: 92px; width: 17px; height: 17px; border: 1px solid #e2bd6f; border-radius: 50%; background: #b64d3e; box-shadow: 0 0 0 4px rgba(226, 189, 111, .1); content: ""; }
+    .ornament span { position: absolute; top: 13px; left: 100px; width: 1px; height: 15px; background: #e2bd6f; }
+    .letter {
+      position: relative;
+      overflow: hidden;
+      padding: clamp(26px, 4vw, 48px) clamp(24px, 4.8vw, 60px) 34px;
+      color: var(--ink);
+      background:
+        radial-gradient(ellipse at 100% 0%, rgba(215, 192, 135, .2), transparent 35%),
+        repeating-linear-gradient(to bottom, transparent 0, transparent 35px, rgba(91, 118, 85, .08) 36px, transparent 37px),
+        var(--paper);
+      border: 1px solid rgba(248, 223, 169, .55);
+      border-radius: 4px 4px 14px 4px;
+      box-shadow: var(--shadow);
+      transform: rotate(.35deg);
+    }
+    .letter::before { position: absolute; top: 0; left: 0; right: 0; height: 7px; background: linear-gradient(90deg, #a7483d 0 12%, #e0bf74 12% 15%, #28594b 15% 85%, #e0bf74 85% 88%, #a7483d 88%); content: ""; }
+    .letter::after { position: absolute; right: -39px; bottom: -44px; width: 134px; height: 134px; border: 1px solid rgba(67, 107, 76, .12); border-radius: 50%; box-shadow: 0 0 0 11px rgba(67, 107, 76, .035), 0 0 0 22px rgba(67, 107, 76, .03); content: ""; pointer-events: none; }
+    .letter-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 30px; font-family: ui-sans-serif, system-ui, sans-serif; }
+    .letter-label { color: #718070; font-size: 10px; font-weight: 700; letter-spacing: .17em; text-transform: uppercase; }
+    .tiny-holly { color: #55745a; font-size: 18px; letter-spacing: .12em; }
+    .letter h2 { margin: 0 0 24px; color: var(--forest); font-size: clamp(28px, 3.2vw, 38px); font-weight: 500; letter-spacing: -.025em; }
+    .letter h2 span { color: var(--red); font-style: italic; }
+    .field-label { display: block; margin: 0 0 9px; color: #5f7063; font-family: ui-sans-serif, system-ui, sans-serif; font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+    .name-wrap { display: flex; align-items: center; gap: 14px; margin-bottom: 25px; }
+    .name-wrap .field-label { flex: 0 0 auto; margin: 0; }
+    .name-input { width: 100%; min-width: 0; padding: 9px 2px; color: var(--ink); border: 0; border-bottom: 1px solid rgba(71, 91, 68, .35); outline: none; background: transparent; font-size: 17px; }
+    .name-input::placeholder { color: #a1a99b; }
+    .name-input:focus { border-color: var(--pine); box-shadow: 0 1px 0 var(--pine); }
+    .recipient-options { display: flex; flex-wrap: wrap; gap: 9px; margin-bottom: 25px; }
+    .recipient-choice { position: relative; }
+    .recipient-choice input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+    .recipient-choice label { display: inline-flex; align-items: center; gap: 8px; min-height: 38px; padding: 0 14px; color: #58675a; border: 1px solid #d5dbc9; border-radius: 999px; background: rgba(255,255,255,.46); font-family: ui-sans-serif, system-ui, sans-serif; font-size: 12px; transition: .18s ease; cursor: pointer; }
+    .recipient-choice label:hover { border-color: #849a7f; }
+    .recipient-choice input:checked + label { color: #fff9e9; border-color: var(--forest); background: var(--forest); box-shadow: 0 4px 12px rgba(24, 59, 50, .13); }
+    .recipient-choice input:focus-visible + label { outline: 3px solid #d8ac61; outline-offset: 2px; }
+    .writing-heading { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 5px; }
+    .writing-heading .field-label { margin: 0; }
+    .counter { color: #8b9788; font-family: ui-sans-serif, system-ui, sans-serif; font-size: 11px; }
+    textarea { display: block; width: 100%; min-height: 176px; resize: vertical; padding: 10px 2px 8px; color: var(--ink); border: 0; outline: none; background: transparent; font-size: 17px; line-height: 36px; }
+    textarea::placeholder { color: #9aa596; opacity: 1; }
+    textarea:focus { box-shadow: inset 0 -1px rgba(40, 89, 75, .55); }
+    .form-bottom { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-top: 12px; padding-top: 20px; border-top: 1px solid rgba(80, 102, 78, .16); }
+    .send-hint { max-width: 205px; color: #718071; font-family: ui-sans-serif, system-ui, sans-serif; font-size: 11px; line-height: 1.55; }
+    .send-button, .primary-button { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 48px; padding: 0 21px; color: #fff8e7; border: 0; border-radius: 3px; background: var(--forest); font-family: ui-sans-serif, system-ui, sans-serif; font-size: 13px; font-weight: 700; transition: transform .18s ease, background .18s ease, box-shadow .18s ease; box-shadow: 0 5px 14px rgba(24, 59, 50, .15); }
+    .send-button:hover, .primary-button:hover { background: #28594b; box-shadow: 0 8px 19px rgba(24, 59, 50, .2); transform: translateY(-1px); }
+    .send-button:focus-visible, .primary-button:focus-visible, .secondary-button:focus-visible, .close-button:focus-visible { outline: 3px solid #d8ac61; outline-offset: 3px; }
+    .arrow { font-size: 17px; line-height: 1; }
+    .page-footer { display: flex; justify-content: center; align-items: center; gap: 9px; margin-top: 38px; color: rgba(234, 232, 210, .6); font-family: ui-sans-serif, system-ui, sans-serif; font-size: 11px; letter-spacing: .04em; }
+    .page-footer span { color: #d3ad68; }
+    .error { min-height: 18px; margin: 9px 0 -3px; color: #a93e35; font-family: ui-sans-serif, system-ui, sans-serif; font-size: 12px; }
+    .modal-backdrop { position: fixed; inset: 0; z-index: 10; display: none; place-items: center; padding: 22px; background: rgba(4, 17, 15, .7); backdrop-filter: blur(7px); }
+    .modal-backdrop.open { display: grid; }
+    .modal { position: relative; width: min(100%, 460px); padding: 36px; color: var(--ink); border: 1px solid rgba(218, 183, 111, .45); border-radius: 9px; background: var(--cream); box-shadow: 0 25px 90px rgba(0,0,0,.35); animation: arrive .22s ease-out; }
+    @keyframes arrive { from { opacity: 0; transform: translateY(9px) scale(.99); } to { opacity: 1; transform: translateY(0) scale(1); } }
+    .close-button { position: absolute; top: 13px; right: 13px; display: grid; width: 36px; height: 36px; place-items: center; color: #627065; border: 1px solid #dbe0d4; border-radius: 50%; background: transparent; font-family: ui-sans-serif, system-ui, sans-serif; font-size: 21px; }
+    .modal-sparkle { color: #b1833f; font-size: 26px; }
+    .modal h3 { margin: 11px 0 8px; color: var(--forest); font-size: 31px; font-weight: 500; letter-spacing: -.02em; }
+    .modal-copy { margin: 0 0 19px; color: #627065; font-family: ui-sans-serif, system-ui, sans-serif; font-size: 13px; line-height: 1.65; }
+    .letter-preview { max-height: 120px; overflow: auto; margin: 0 0 20px; padding: 15px; color: #526356; border-left: 2px solid #c99e58; background: #f5f0df; font-size: 14px; line-height: 1.55; white-space: pre-wrap; }
+    .share-actions { display: grid; gap: 9px; }
+    .share-button { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 48px; padding: 0 15px; color: #33463a; border: 1px solid #d5dccf; border-radius: 4px; background: rgba(255,255,255,.64); text-align: left; font-family: ui-sans-serif, system-ui, sans-serif; font-size: 13px; font-weight: 650; transition: background .16s ease, border .16s ease; }
+    .share-button:hover { border-color: #8da18c; background: white; }
+    .share-icon { display: grid; width: 25px; height: 25px; place-items: center; color: var(--forest); border-radius: 50%; background: #e5ebdf; font-size: 13px; }
+    .share-note { margin: 15px 0 0; color: #849084; font-family: ui-sans-serif, system-ui, sans-serif; font-size: 10px; line-height: 1.5; }
+    .toast { position: fixed; right: 22px; bottom: 22px; z-index: 20; max-width: calc(100% - 44px); padding: 12px 17px; color: #fff8e7; border: 1px solid rgba(221, 187, 114, .45); border-radius: 4px; background: #183b32; box-shadow: 0 8px 28px rgba(0,0,0,.25); font-family: ui-sans-serif, system-ui, sans-serif; font-size: 13px; opacity: 0; pointer-events: none; transform: translateY(8px); transition: .2s ease; }
+    .toast.show { opacity: 1; transform: translateY(0); }
+    @media (max-width: 850px) {
+      .page { padding-top: 47px; }
+      .layout { grid-template-columns: 1fr; gap: 28px; max-width: 650px; margin: 0 auto; }
+      .intro { padding-bottom: 4px; }
+      h1 { max-width: 620px; font-size: clamp(43px, 9vw, 66px); }
+      .intro-copy { max-width: 500px; margin: 15px 0 0; }
+      .little-note, .ornament { display: none; }
+      .letter { margin: 0 3px; }
+    }
+    @media (max-width: 520px) {
+      .site-header, .page { width: min(100% - 32px, 1180px); }
+      .site-header { min-height: 72px; }
+      .season { font-size: 9px; letter-spacing: .12em; }
+      .brand-name { font-size: 15px; }
+      .page { padding: 37px 0 42px; }
+      .layout { gap: 24px; }
+      .eyebrow { margin-bottom: 15px; font-size: 10px; }
+      h1 { font-size: clamp(42px, 13vw, 59px); }
+      .intro-copy { font-size: 13px; }
+      .letter { padding: 29px 22px 25px; transform: none; }
+      .letter-top { margin-bottom: 22px; }
+      .letter h2 { margin-bottom: 21px; font-size: 31px; }
+      .name-wrap { align-items: flex-start; flex-direction: column; gap: 4px; margin-bottom: 20px; }
+      .name-input { font-size: 16px; }
+      .recipient-options { gap: 7px; margin-bottom: 22px; }
+      .recipient-choice label { padding: 0 11px; font-size: 11px; }
+      textarea { min-height: 160px; font-size: 16px; line-height: 34px; }
+      .form-bottom { align-items: flex-start; flex-direction: column; gap: 14px; }
+      .send-hint { max-width: none; }
+      .send-button { width: 100%; }
+      .modal { padding: 31px 24px 26px; }
+      .modal h3 { font-size: 28px; }
+      .page-footer { margin-top: 26px; font-size: 10px; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#inicio" aria-label="Correo de Navidad, inicio">
+      <span class="brand-mark" aria-hidden="true">✳</span>
+      <span class="brand-name">Correo de Navidad</span>
+    </a>
+    <span class="season">Navidad · 2026</span>
+  </header>
+
+  <main class="page" id="inicio">
+    <div class="layout">
+      <section class="intro" aria-labelledby="page-title">
+        <p class="eyebrow">Una tradición para compartir</p>
+        <h1 id="page-title">La magia empieza con <em>una carta.</em></h1>
+        <p class="intro-copy">Tómate un ratito, piensa en tus deseos y escribe tu carta con toda la ilusión de la Navidad.</p>
+        <p class="little-note"><span class="note-star" aria-hidden="true">✧</span> Hecha con cariño, para guardar en el corazón.</p>
+        <div class="ornament" aria-hidden="true"><span></span></div>
+      </section>
+
+      <section class="letter" aria-labelledby="letter-heading">
+        <div class="letter-top">
+          <span class="letter-label">Taller de cartas · edición especial</span>
+          <span class="tiny-holly" aria-hidden="true">✳ ✳</span>
+        </div>
+        <h2 id="letter-heading">Querido <span id="greeting-name">Santa</span>,</h2>
+        <form id="letter-form" novalidate>
+          <div class="name-wrap">
+            <label class="field-label" for="sender-name">De</label>
+            <input class="name-input" id="sender-name" name="sender" type="text" maxlength="60" placeholder="Escribe tu nombre" autocomplete="name" required>
+          </div>
+
+          <fieldset style="margin:0;padding:0;border:0">
+            <legend class="field-label">Para</legend>
+            <div class="recipient-options">
+              <div class="recipient-choice">
+                <input id="to-santa" name="recipient" type="radio" value="Santa" checked>
+                <label for="to-santa"><span aria-hidden="true">🎅</span> Santa</label>
+              </div>
+              <div class="recipient-choice">
+                <input id="to-nino" name="recipient" type="radio" value="Niño Dios">
+                <label for="to-nino"><span aria-hidden="true">⭐</span> Niño Dios</label>
+              </div>
+            </div>
+          </fieldset>
+
+          <div class="writing-heading">
+            <label class="field-label" for="letter-body">Mi carta</label>
+            <span class="counter" id="counter">0 / 1200</span>
+          </div>
+          <textarea id="letter-body" name="message" maxlength="1200" placeholder="Este año me hizo feliz…&#10;Para esta Navidad me gustaría…" required></textarea>
+          <p class="error" id="form-error" role="alert" aria-live="polite"></p>
+          <div class="form-bottom">
+            <span class="send-hint">Al terminar, podrás compartirla por WhatsApp, correo o copiarla.</span>
+            <button class="send-button" id="send-button" type="submit">Enviar mi carta <span class="arrow" aria-hidden="true">↗</span></button>
+          </div>
+        </form>
+      </section>
+    </div>
+    <footer class="page-footer"><span>✦</span> Un poquito de magia, en cada palabra <span>✦</span></footer>
+  </main>
+
+  <div class="modal-backdrop" id="share-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-hidden="true">
+    <div class="modal">
+      <button class="close-button" id="close-modal" type="button" aria-label="Cerrar">×</button>
+      <span class="modal-sparkle" aria-hidden="true">✧</span>
+      <h3 id="modal-title">Tu carta está lista</h3>
+      <p class="modal-copy">Elige cómo quieres compartirla. Se abrirá la aplicación para que elijas a quién enviársela.</p>
+      <pre class="letter-preview" id="letter-preview"></pre>
+      <div class="share-actions">
+        <button class="share-button" id="whatsapp-button" type="button"><span class="share-icon" aria-hidden="true">◉</span> Abrir WhatsApp</button>
+        <button class="share-button" id="image-button" type="button"><span class="share-icon" aria-hidden="true">✧</span> Compartir cartita como imagen</button>
+        <button class="share-button" id="email-button" type="button"><span class="share-icon" aria-hidden="true">✉</span> Abrir correo</button>
+        <button class="share-button" id="copy-button" type="button"><span class="share-icon" aria-hidden="true">▣</span> Copiar carta</button>
+        <button class="share-button" id="native-share-button" type="button" hidden><span class="share-icon" aria-hidden="true">↗</span> Compartir desde mi dispositivo</button>
+      </div>
+      <p class="share-note">WhatsApp abre el chat para que confirmes el envío. En celulares compatibles, puedes adjuntar la cartita como imagen desde el menú de compartir.</p>
+    </div>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    // Para enviarlas siempre a la misma persona, agrega aquí su número con código de país
+    // (solo dígitos, por ejemplo 573001234567) y/o su correo. Déjalos vacíos para que
+    // cada familiar elija su propio destinatario al compartir.
+    const DELIVERY = { whatsapp: "573189004221", email: "juanmanuelva3243@gmail.com" };
+    // Pega aquí la URL de implementación de tu Apps Script para activar el envío automático.
+    const EMAIL_ENDPOINT = "https://script.google.com/macros/s/AKfycbwxKP3qaPhiFjM4xbHG5Q7OG3p7HAS82Pr-dyn5wPXHNnpKhYn_RQNmk40EkF2IXzZHxQ/exec";
+
+    const form = document.getElementById("letter-form");
+    const senderInput = document.getElementById("sender-name");
+    const messageInput = document.getElementById("letter-body");
+    const error = document.getElementById("form-error");
+    const modal = document.getElementById("share-modal");
+    const preview = document.getElementById("letter-preview");
+    const counter = document.getElementById("counter");
+    const toast = document.getElementById("toast");
+    const nativeShareButton = document.getElementById("native-share-button");
+    let currentLetter = "";
+    let toastTimer;
+
+    function selectedRecipient() {
+      return document.querySelector('input[name="recipient"]:checked').value;
+    }
+    function updateGreeting() {
+      document.getElementById("greeting-name").textContent = selectedRecipient();
+    }
+    document.querySelectorAll('input[name="recipient"]').forEach((input) => input.addEventListener("change", updateGreeting));
+    messageInput.addEventListener("input", () => {
+      counter.textContent = `${messageInput.value.length} / 1200`;
+      error.textContent = "";
+    });
+    senderInput.addEventListener("input", () => { error.textContent = ""; });
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const sender = senderInput.value.trim();
+      const message = messageInput.value.trim();
+      if (!sender || !message) {
+        error.textContent = !sender && !message ? "Escribe tu nombre y tu carta para continuar." : !sender ? "Escribe tu nombre para firmar la carta." : "Cuéntanos qué te gustaría para esta Navidad.";
+        (!sender ? senderInput : messageInput).focus();
+        return;
+      }
+      currentLetter = `Querido ${selectedRecipient()},\n\n${message}\n\nCon cariño,\n${sender}`;
+      if (!EMAIL_ENDPOINT) {
+        error.textContent = "El envío automático aún necesita conectar el correo. Sigue el paso de configuración incluido con la aplicación.";
+        return;
+      }
+      const button = document.getElementById("send-button");
+      button.disabled = true;
+      button.textContent = "Enviando tu carta…";
+      try {
+        const png = await makeLetterImage();
+        const bytes = new Uint8Array(await png.arrayBuffer());
+        let binary = "";
+        for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]);
+        const payload = new URLSearchParams({
+          sender, recipient: selectedRecipient(), message,
+          image: btoa(binary), imageType: "image/png", website: ""
+        });
+        await fetch(EMAIL_ENDPOINT, { method: "POST", mode: "no-cors", body: payload });
+        showToast("¡Carta enviada! Ya va en camino al buzón de Juan Manuel.");
+        form.reset();
+        counter.textContent = "0 / 1200";
+        updateGreeting();
+      } catch (_) {
+        error.textContent = "No se pudo enviar. Revisa tu conexión e inténtalo de nuevo.";
+      } finally {
+        button.disabled = false;
+        button.innerHTML = 'Enviar mi carta <span class="arrow" aria-hidden="true">↗</span>';
+      }
+    });
+
+    function closeModal() {
+      modal.classList.remove("open");
+      modal.setAttribute("aria-hidden", "true");
+      document.getElementById("send-button")?.focus();
+    }
+    document.getElementById("close-modal").addEventListener("click", closeModal);
+    modal.addEventListener("click", (event) => { if (event.target === modal) closeModal(); });
+    document.addEventListener("keydown", (event) => { if (event.key === "Escape" && modal.classList.contains("open")) closeModal(); });
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove("show"), 2800);
+    }
+    document.getElementById("whatsapp-button").addEventListener("click", () => {
+      const phone = DELIVERY.whatsapp.replace(/\D/g, "");
+      const target = phone ? `https://wa.me/${phone}` : "https://wa.me/";
+      window.open(`${target}?text=${encodeURIComponent(currentLetter)}`, "_blank", "noopener,noreferrer");
+    });
+    function makeLetterImage() {
+      const canvas = document.createElement("canvas");
+      canvas.width = 1080;
+      canvas.height = 1350;
+      const ctx = canvas.getContext("2d");
+      ctx.fillStyle = "#fff9eb";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#a7483d";
+      ctx.fillRect(0, 0, 150, 15);
+      ctx.fillStyle = "#d8ac61";
+      ctx.fillRect(150, 0, 32, 15);
+      ctx.fillStyle = "#28594b";
+      ctx.fillRect(182, 0, 716, 15);
+      ctx.fillStyle = "#d8ac61";
+      ctx.fillRect(898, 0, 32, 15);
+      ctx.fillStyle = "#a7483d";
+      ctx.fillRect(930, 0, 150, 15);
+      ctx.fillStyle = "#718070";
+      ctx.font = "600 24px Arial, sans-serif";
+      ctx.letterSpacing = "5px";
+      ctx.fillText("CORREO DE NAVIDAD · 2026", 92, 105);
+      ctx.fillStyle = "#183b32";
+      ctx.font = "italic 54px Georgia, serif";
+      ctx.letterSpacing = "0px";
+      ctx.fillText(`Querido ${selectedRecipient()},`, 92, 220);
+      ctx.strokeStyle = "rgba(91, 118, 85, .17)";
+      ctx.lineWidth = 2;
+      for (let y = 305; y < 1090; y += 69) {
+        ctx.beginPath(); ctx.moveTo(92, y + 28); ctx.lineTo(988, y + 28); ctx.stroke();
+      }
+      ctx.fillStyle = "#35473a";
+      ctx.font = "34px Georgia, serif";
+      const words = messageInput.value.trim().split(/\s+/);
+      const lines = [];
+      let line = "";
+      for (const word of words) {
+        const test = line ? `${line} ${word}` : word;
+        if (ctx.measureText(test).width > 890 && line) { lines.push(line); line = word; }
+        else line = test;
+      }
+      if (line) lines.push(line);
+      const maxLines = 11;
+      lines.slice(0, maxLines).forEach((text, index) => ctx.fillText(text, 94, 350 + index * 69));
+      if (lines.length > maxLines) ctx.fillText("…", 94, 350 + maxLines * 69);
+      ctx.fillStyle = "#28594b";
+      ctx.font = "italic 31px Georgia, serif";
+      ctx.fillText("Con cariño,", 94, 1150);
+      ctx.font = "bold 34px Georgia, serif";
+      ctx.fillText(senderInput.value.trim(), 94, 1200);
+      ctx.fillStyle = "#a7483d";
+      ctx.beginPath(); ctx.arc(950, 1190, 36, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = "#fff9eb";
+      ctx.font = "34px Georgia, serif";
+      ctx.fillText("✦", 934, 1202);
+      return new Promise((resolve) => canvas.toBlob(resolve, "image/png"));
+    }
+    document.getElementById("image-button").addEventListener("click", async () => {
+      const blob = await makeLetterImage();
+      if (!blob) { showToast("No se pudo preparar la imagen."); return; }
+      const file = new File([blob], "mi-cartita-de-navidad.png", { type: "image/png" });
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        try { await navigator.share({ files: [file], title: "Mi cartita de Navidad", text: currentLetter }); }
+        catch (error) { if (error.name !== "AbortError") showToast("No se pudo compartir la imagen."); }
+        return;
+      }
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = file.name;
+      link.click();
+      URL.revokeObjectURL(link.href);
+      const phone = DELIVERY.whatsapp.replace(/\D/g, "");
+      const target = phone ? `https://wa.me/${phone}` : "https://wa.me/";
+      window.open(`${target}?text=${encodeURIComponent(`Te comparto mi cartita de Navidad 🎄`)}`, "_blank", "noopener,noreferrer");
+      showToast("Imagen descargada. Adjunta la cartita en el chat de WhatsApp.");
+    });
+    document.getElementById("email-button").addEventListener("click", () => {
+      const subject = `Mi carta de Navidad para ${selectedRecipient()}`;
+      window.location.href = `mailto:${encodeURIComponent(DELIVERY.email)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(currentLetter)}`;
+    });
+    document.getElementById("copy-button").addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(currentLetter);
+      } catch (_) {
+        const temporary = document.createElement("textarea");
+        temporary.value = currentLetter;
+        temporary.style.position = "fixed";
+        temporary.style.opacity = "0";
+        document.body.appendChild(temporary);
+        temporary.select();
+        document.execCommand("copy");
+        temporary.remove();
+      }
+      showToast("Carta copiada. Ya puedes pegarla donde quieras.");
+    });
+    if (navigator.share) {
+      nativeShareButton.hidden = false;
+      nativeShareButton.addEventListener("click", async () => {
+        try {
+          await navigator.share({ title: "Mi carta de Navidad", text: currentLetter });
+        } catch (error) {
+          if (error.name !== "AbortError") showToast("No se pudo abrir el menú para compartir.");
+        }
+      });
+    }
+  </script>
+</body>
+</html>
