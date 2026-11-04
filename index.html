@@ -80,7 +80,8 @@
       padding: clamp(26px, 4vw, 48px) clamp(24px, 4.8vw, 60px) 34px;
       color: var(--ink);
       background:
-        radial-gradient(ellipse at 100% 0%, rgba(215, 192, 135, .2), transparent 35%),
+        radial-gradient(ellipse at 100% 0%, rgba(185, 79, 67, .1), transparent 28%),
+        radial-gradient(ellipse at 0% 100%, rgba(40, 89, 75, .08), transparent 26%),
         repeating-linear-gradient(to bottom, transparent 0, transparent 35px, rgba(91, 118, 85, .08) 36px, transparent 37px),
         var(--paper);
       border: 1px solid rgba(248, 223, 169, .55);
@@ -88,13 +89,13 @@
       box-shadow: var(--shadow);
       transform: rotate(.35deg);
     }
-    .letter::before { position: absolute; top: 0; left: 0; right: 0; height: 7px; background: linear-gradient(90deg, #a7483d 0 12%, #e0bf74 12% 15%, #28594b 15% 85%, #e0bf74 85% 88%, #a7483d 88%); content: ""; }
+    .letter::before { position: absolute; top: 0; left: 0; right: 0; height: 9px; background: repeating-linear-gradient(120deg, #a7483d 0 18px, #fff9eb 18px 25px, #28594b 25px 43px, #fff9eb 43px 50px, #d8ac61 50px 57px, #fff9eb 57px 64px); content: ""; }
     .letter::after { position: absolute; right: -39px; bottom: -44px; width: 134px; height: 134px; border: 1px solid rgba(67, 107, 76, .12); border-radius: 50%; box-shadow: 0 0 0 11px rgba(67, 107, 76, .035), 0 0 0 22px rgba(67, 107, 76, .03); content: ""; pointer-events: none; }
     .letter-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 30px; font-family: ui-sans-serif, system-ui, sans-serif; }
     .letter-label { color: #718070; font-size: 10px; font-weight: 700; letter-spacing: .17em; text-transform: uppercase; }
     .tiny-holly { color: #55745a; font-size: 18px; letter-spacing: .12em; }
     .letter h2 { margin: 0 0 24px; color: var(--forest); font-size: clamp(28px, 3.2vw, 38px); font-weight: 500; letter-spacing: -.025em; }
-    .letter h2 span { color: var(--red); font-style: italic; }
+    .letter h2 span { color: var(--red); font-style: italic; text-shadow: 0 1px 0 rgba(185, 79, 67, .12); }
     .field-label { display: block; margin: 0 0 9px; color: #5f7063; font-family: ui-sans-serif, system-ui, sans-serif; font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
     .name-wrap { display: flex; align-items: center; gap: 14px; margin-bottom: 25px; }
     .name-wrap .field-label { flex: 0 0 auto; margin: 0; }
@@ -198,28 +199,14 @@
       <section class="letter" aria-labelledby="letter-heading">
         <div class="letter-top">
           <span class="letter-label">Taller de cartas · edición especial</span>
-          <span class="tiny-holly" aria-hidden="true">✳ ✳</span>
+          <span class="tiny-holly" aria-hidden="true">🎄 ✧ ✨ ✧ 🎄</span>
         </div>
-        <h2 id="letter-heading">Querido <span id="greeting-name">Santa</span>,</h2>
+        <h2 id="letter-heading">Querido <span id="greeting-name">Santa</span> Juanma,</h2>
         <form id="letter-form" novalidate>
           <div class="name-wrap">
             <label class="field-label" for="sender-name">De</label>
             <input class="name-input" id="sender-name" name="sender" type="text" maxlength="60" placeholder="Escribe tu nombre" autocomplete="name" required>
           </div>
-
-          <fieldset style="margin:0;padding:0;border:0">
-            <legend class="field-label">Para</legend>
-            <div class="recipient-options">
-              <div class="recipient-choice">
-                <input id="to-santa" name="recipient" type="radio" value="Santa" checked>
-                <label for="to-santa"><span aria-hidden="true">🎅</span> Santa</label>
-              </div>
-              <div class="recipient-choice">
-                <input id="to-nino" name="recipient" type="radio" value="Niño Dios">
-                <label for="to-nino"><span aria-hidden="true">⭐</span> Niño Dios</label>
-              </div>
-            </div>
-          </fieldset>
 
           <div class="writing-heading">
             <label class="field-label" for="letter-body">Mi carta</label>
@@ -276,13 +263,9 @@
     let currentLetter = "";
     let toastTimer;
 
-    function selectedRecipient() {
-      return document.querySelector('input[name="recipient"]:checked').value;
-    }
     function updateGreeting() {
-      document.getElementById("greeting-name").textContent = selectedRecipient();
+      document.getElementById("greeting-name").textContent = "Santa";
     }
-    document.querySelectorAll('input[name="recipient"]').forEach((input) => input.addEventListener("change", updateGreeting));
     messageInput.addEventListener("input", () => {
       counter.textContent = `${messageInput.value.length} / 1200`;
       error.textContent = "";
@@ -298,7 +281,7 @@
         (!sender ? senderInput : messageInput).focus();
         return;
       }
-      currentLetter = `Querido ${selectedRecipient()},\n\n${message}\n\nCon cariño,\n${sender}`;
+      currentLetter = `Querido Santa Juanma,\n\n${message}\n\nCon cariño,\n${sender}`;
       if (!EMAIL_ENDPOINT) {
         error.textContent = "El envío automático aún necesita conectar el correo. Sigue el paso de configuración incluido con la aplicación.";
         return;
@@ -312,7 +295,7 @@
         let binary = "";
         for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]);
         const payload = new URLSearchParams({
-          sender, recipient: selectedRecipient(), message,
+          sender, recipient: "Santa", message,
           image: btoa(binary), imageType: "image/png", website: ""
         });
         await fetch(EMAIL_ENDPOINT, { method: "POST", mode: "no-cors", body: payload });
@@ -368,10 +351,15 @@
       ctx.font = "600 24px Arial, sans-serif";
       ctx.letterSpacing = "5px";
       ctx.fillText("CORREO DE NAVIDAD · 2026", 92, 105);
-      ctx.fillStyle = "#183b32";
       ctx.font = "italic 54px Georgia, serif";
       ctx.letterSpacing = "0px";
-      ctx.fillText(`Querido ${selectedRecipient()},`, 92, 220);
+      ctx.fillStyle = "#183b32";
+      ctx.fillText("Querido ", 92, 220);
+      const greetingX = 92 + ctx.measureText("Querido ").width;
+      ctx.fillStyle = "#b94f43";
+      ctx.fillText("Santa", greetingX, 220);
+      ctx.fillStyle = "#183b32";
+      ctx.fillText(" Juanma,", greetingX + ctx.measureText("Santa").width, 220);
       ctx.strokeStyle = "rgba(91, 118, 85, .17)";
       ctx.lineWidth = 2;
       for (let y = 305; y < 1090; y += 69) {
@@ -423,7 +411,7 @@
       showToast("Imagen descargada. Adjunta la cartita en el chat de WhatsApp.");
     });
     document.getElementById("email-button").addEventListener("click", () => {
-      const subject = `Mi carta de Navidad para ${selectedRecipient()}`;
+      const subject = `Carta de Navidad de ${senderInput.value.trim()}`;
       window.location.href = `mailto:${encodeURIComponent(DELIVERY.email)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(currentLetter)}`;
     });
     document.getElementById("copy-button").addEventListener("click", async () => {
